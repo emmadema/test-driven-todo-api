@@ -16,9 +16,9 @@ app.use(express.static(__dirname + '/public'));
 
 // our database is an array for now with some hardcoded values
 var todos = [
-  // { _id: 1, task: 'Laundry', description: 'Wash clothes' },
-  // { _id: 2, task: 'Grocery Shopping', description: 'Buy dinner for this week' },
-  // { _id: 3, task: 'Homework', description: 'Make this app super awesome!' }
+  { _id: 1, task: 'Laundry', description: 'Wash clothes' },
+  { _id: 2, task: 'Grocery Shopping', description: 'Buy dinner for this week' },
+  { _id: 3, task: 'Homework', description: 'Make this app super awesome!' }
 ];
 
 /**********
@@ -44,6 +44,8 @@ app.get('/', function homepage(req, res) {
  * ORDER THAT THE TESTS DICTATE.
  */
 
+ //the routes is what is broken
+
 app.get('/api/todos/search', function search(req, res) {
   /* This endpoint responds with the search results from the
    * query in the request. COMPLETE THIS ENDPOINT LAST.
@@ -52,19 +54,39 @@ app.get('/api/todos/search', function search(req, res) {
 
 app.get('/api/todos', function index(req, res) {
   /* This endpoint responds with all of the todos
+      1) should respond with status 200
+      2) should respond with a JSON object
+      3) should respond with a JSON object containing a list of todos
+      4) todo objects should have properities: _id, description, task
    */
+   //start with this one
+   //need to send a JSON object = res.json({});-empty object
+   res.json({todos : todos});
+   //this is the JSON object with all the todos in it from the srray above
+
+
 });
 
 app.post('/api/todos', function create(req, res) {
   /* This endpoint will add a todo to our "database"
    * and respond with the newly created todo.
    */
+      var id = req.body._id;
+      id++;
+      res.json(req.body);
+      todos.push(req.body);
+
 });
 
 app.get('/api/todos/:id', function show(req, res) {
   /* This endpoint will return a single todo with the
    * id specified in the route parameter (:id)
    */
+   //this is the second one
+   //for (i=0; i < todos.length; i++);
+      if (err)
+      res.send(err);
+      res.json(todos);
 });
 
 app.put('/api/todos/:id', function update(req, res) {
@@ -72,6 +94,7 @@ app.put('/api/todos/:id', function update(req, res) {
    * id specified in the route parameter (:id) and respond
    * with the newly updated todo.
    */
+    
 });
 
 app.delete('/api/todos/:id', function destroy(req, res) {
