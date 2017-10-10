@@ -102,6 +102,9 @@ app.delete('/api/todos/:id', function destroy(req, res) {
    * id specified in the route parameter (:id) and respond
    * with deleted todo.
    */
+   todos.delete(function( err, data){
+    res.json(data);
+   });
 });
 
 /**********
