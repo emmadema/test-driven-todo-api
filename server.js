@@ -52,7 +52,7 @@ app.get('/api/todos/search', function search(req, res) {
    */
 });
 
-app.get('/api/todos', function index(req, res) {
+app.get('/api/todos', function index(req, res) {//Done
   /* This endpoint responds with all of the todos
       1) should respond with status 200
       2) should respond with a JSON object
@@ -63,18 +63,13 @@ app.get('/api/todos', function index(req, res) {
    //need to send a JSON object = res.json({});-empty object
    res.json({todos : todos});
    //this is the JSON object with all the todos in it from the srray above
-
-
 });
+
 
 app.post('/api/todos', function create(req, res) {
   /* This endpoint will add a todo to our "database"
    * and respond with the newly created todo.
    */
-      var id = req.body._id;
-      id++;
-      res.json(req.body);
-      todos.push(req.body);
 
 });
 
@@ -82,11 +77,13 @@ app.get('/api/todos/:id', function show(req, res) {
   /* This endpoint will return a single todo with the
    * id specified in the route parameter (:id)
    */
-   //this is the second one
-   //for (i=0; i < todos.length; i++);
-      if (err)
-      res.send(err);
-      res.json(todos);
+    //get todo by the id
+    //run through the todo as
+    for (i=0; i < todos.length; i++) {
+      if (todos[i]._id == req.params.id) {
+        return res.json(todos[i]);
+      }
+    }
 });
 
 app.put('/api/todos/:id', function update(req, res) {
