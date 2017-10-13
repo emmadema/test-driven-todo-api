@@ -52,6 +52,7 @@ app.get('/api/todos/search', function search(req, res) {
    */
 });
 
+//this one works
 app.get('/api/todos', function index(req, res) {//Done
   /* This endpoint responds with all of the todos
       1) should respond with status 200
@@ -70,11 +71,12 @@ app.post('/api/todos', function create(req, res) {
   /* This endpoint will add a todo to our "database"
    * and respond with the newly created todo.
    */
-   todos.
-   res.json(todos[i]);
-
+  
+  todos.push(req.body.id++);
+  res.json(req.body);
 });
 
+//this one works
 app.get('/api/todos/:id', function show(req, res) {
   /* This endpoint will return a single todo with the
    * id specified in the route parameter (:id)
@@ -83,7 +85,7 @@ app.get('/api/todos/:id', function show(req, res) {
     //run through the todo as
     for (i=0; i < todos.length; i++) {
       if (todos[i]._id == req.params.id) {
-        return res.json(todos[i]);
+        return res.json(todos[i]).save();
       }
     }
 });
@@ -95,21 +97,27 @@ app.put('/api/todos/:id', function update(req, res) {
    */
     for (i=0; i < todos.length; i++) {
       if (todos[i]._id == req.params.id) {
-        todos[i].task = req.params.task;
-        todos[i].description = req.params.description;
-        return res.json(todos[i]);
+        var todo = todos[i];
+        todo[i].task = req.params.task;
+        todo[i].description = req.params.description;
+        todo[i].id = todos.length++;
+      todos.push(todo[i]);
+      res.json(todo[i]);
       }
-    }
+   }
 });
+
 
 app.delete('/api/todos/:id', function destroy(req, res) {
   /* This endpoint will delete a single todo with the
    * id specified in the route parameter (:id) and respond
    * with deleted todo.
    */
-   todos.delete(function( err, data){
-    res.json(data);
-   });
+   for (var i = 0; i<todos.length; i++){
+    if (todos[i].id == req.params.id) {
+    delete todos[i];
+    }
+   }
 });
 
 /**********
