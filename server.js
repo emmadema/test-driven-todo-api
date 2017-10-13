@@ -50,6 +50,15 @@ app.get('/api/todos/search', function search(req, res) {
   /* This endpoint responds with the search results from the
    * query in the request. COMPLETE THIS ENDPOINT LAST.
    */
+   for (i=0; i < todos.length; i++) {
+    if (todos[i]._id == req.query.id) {
+      return res.json(todos[i]._id);
+    } else if (todos[i].task == req.query.task){ 
+      return res.json(todos[i].task);
+    } else if (todos[i].description == req.query.description) {
+      return res.json(todos[i].description);
+    }
+  }
 });
 
 //this one works
@@ -89,7 +98,7 @@ app.get('/api/todos/:id', function show(req, res) {
     //DO NOT TOUCH
   for (i=0; i < todos.length; i++) {
     if (todos[i]._id == req.params.id) {
-      return res.json(todos[i]).save();
+      return res.json(todos[i]);
     }
   }
 });
@@ -101,11 +110,13 @@ app.put('/api/todos/:id', function update(req, res) {
    */
   for (i=0; i < todos.length; i++) {
     if (todos[i]._id == req.params.id) {
-      var todo = todos[i];
-      console.log(todo);
-      todo.task = req.params.task;
-      todo.description = req.params.description;
-      res.json(todo + " updated yo");
+      //console.log(todo);
+      todos[i]._id = req.params.id;
+      todos[i].task = req.params.task;
+      //console.log(newTodo.task);
+      todos[i].description = req.params.description;
+      //console.log(newTodo.description);
+      res.json(todos[i]);
     }
   }
 });
@@ -120,7 +131,7 @@ app.delete('/api/todos/:id', function destroy(req, res) {
     //console.log(todos[i]._id);
     if (todos[i]._id == req.params.id) {
       var deadTodo = todos[i];
-      console.log(deadTodo);
+      //console.log(deadTodo);
       todos.splice([i], 1);
       res.json(deadTodo + " deleted yo");
     }
