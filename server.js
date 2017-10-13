@@ -102,9 +102,10 @@ app.put('/api/todos/:id', function update(req, res) {
   for (i=0; i < todos.length; i++) {
     if (todos[i]._id == req.params.id) {
       var todo = todos[i];
-      todo[i].task = req.params.task;
-      todo[i].description = req.params.description;
-      res.json(todo[i]);
+      console.log(todo);
+      todo.task = req.params.task;
+      todo.description = req.params.description;
+      res.json(todo + " updated yo");
     }
   }
 });
