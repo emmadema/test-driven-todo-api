@@ -71,8 +71,10 @@ app.post('/api/todos', function create(req, res) {
   /* This endpoint will add a todo to our "database"
    * and respond with the newly created todo.
    */
-  
-  todos.push(req.body.id++);
+   //need to increase the id for each new on that is submitted
+   //need to add a new id for each new on that is submitted
+  req.body._id = todos[todos.length-1]._id+1;
+  todos.push(req.body);
   res.json(req.body);
 });
 
@@ -83,11 +85,13 @@ app.get('/api/todos/:id', function show(req, res) {
    */
     //get todo by the id
     //run through the todo as
-    for (i=0; i < todos.length; i++) {
-      if (todos[i]._id == req.params.id) {
-        return res.json(todos[i]).save();
-      }
+
+    //DO NOT TOUCH
+  for (i=0; i < todos.length; i++) {
+    if (todos[i]._id == req.params.id) {
+      return res.json(todos[i]).save();
     }
+  }
 });
 
 app.put('/api/todos/:id', function update(req, res) {
@@ -95,29 +99,31 @@ app.put('/api/todos/:id', function update(req, res) {
    * id specified in the route parameter (:id) and respond
    * with the newly updated todo.
    */
-    for (i=0; i < todos.length; i++) {
-      if (todos[i]._id == req.params.id) {
-        var todo = todos[i];
-        todo[i].task = req.params.task;
-        todo[i].description = req.params.description;
-        todo[i].id = todos.length++;
-      todos.push(todo[i]);
+  for (i=0; i < todos.length; i++) {
+    if (todos[i]._id == req.params.id) {
+      var todo = todos[i];
+      todo[i].task = req.params.task;
+      todo[i].description = req.params.description;
       res.json(todo[i]);
-      }
-   }
+    }
+  }
 });
 
-
+//DO NOT TOUCH
 app.delete('/api/todos/:id', function destroy(req, res) {
   /* This endpoint will delete a single todo with the
    * id specified in the route parameter (:id) and respond
    * with deleted todo.
    */
-   for (var i = 0; i<todos.length; i++){
-    if (todos[i].id == req.params.id) {
-    delete todos[i];
+  for (var i = 0; i<todos.length; i++){
+    //console.log(todos[i]._id);
+    if (todos[i]._id == req.params.id) {
+      var deadTodo = todos[i];
+      console.log(deadTodo);
+      todos.splice([i], 1);
+      res.json(deadTodo + " deleted yo");
     }
-   }
+  }
 });
 
 /**********
