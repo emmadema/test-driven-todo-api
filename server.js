@@ -50,15 +50,38 @@ app.get('/api/todos/search', function search(req, res) {
   /* This endpoint responds with the search results from the
    * query in the request. COMPLETE THIS ENDPOINT LAST.
    */
-   for (i=0; i < todos.length; i++) {
-    if (todos[i]._id == req.query.id) {
-      return res.json(todos[i]._id);
-    } else if (todos[i].task == req.query.task){ 
-      return res.json(todos[i].task);
-    } else if (todos[i].description == req.query.description) {
-      return res.json(todos[i].description);
+
+    for (i=0; i < todos.length; i++) {
+
+    if (todos[i]._id == req.query) {
+
+      console.log(todos[i]);
+      return res.json(todos[i]);
+      
+
+    } else if (todos[i].task == req.query){ 
+
+      console.log(todos[i].task);      
+      return res.json(todos[i]);
+
+    } else if (todos[i].description == req.query) {
+
+      console.log(todos[i].description);
+      return res.json(todos[i]);
+
     }
   }
+});
+
+app.get('/api/todos', function index(req, res) {
+  /* This endpoint responds with all of the todos
+   */
+
+  //display all of the todos
+  //res.response({todos: todos});
+  res.json({todos : todos});
+
+ 
 });
 
 //this one works
@@ -110,11 +133,13 @@ app.put('/api/todos/:id', function update(req, res) {
    */
   for (i=0; i < todos.length; i++) {
     if (todos[i]._id == req.params.id) {
+
+      console.log(todos[i]);      
       //console.log(todo);
-      todos[i]._id = req.params.id;
-      todos[i].task = req.params.task;
+      //todos[i]._id = req.body.id;
+      todos[i].task = req.body.task;
       //console.log(newTodo.task);
-      todos[i].description = req.params.description;
+      todos[i].description = req.body.description;
       //console.log(newTodo.description);
       res.json(todos[i]);
     }
@@ -125,10 +150,10 @@ app.put('/api/todos/:id', function update(req, res) {
 app.delete('/api/todos/:id', function destroy(req, res) {
   /* This endpoint will delete a single todo with the
    * id specified in the route parameter (:id) and respond
-   * with deleted todo.
-   */
+   * with deleted todo.*/
+
   for (var i = 0; i<todos.length; i++){
-    //console.log(todos[i]._id);
+    console.log(todos[i]._id);
     if (todos[i]._id == req.params.id) {
       var deadTodo = todos[i];
       //console.log(deadTodo);
